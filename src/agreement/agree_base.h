@@ -54,7 +54,7 @@ public:
     void Update(const std::vector<uint8_t>& data){
         std::lock_guard<std::mutex> lock(mutex_); 
         if(data.size() != 8) return; //不是一个完整的帧
-        if(data[1] != frame_.id) return; //关键帧不匹配
+        if(data[1] != GetFrameId()) return; //关键帧不匹配
         if(data[6] != BCC16(data)) return; //校验不通过
         Analyze(data); //协议解析
     }

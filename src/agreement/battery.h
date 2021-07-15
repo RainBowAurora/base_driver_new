@@ -41,7 +41,7 @@ private:
      */
     void Package(std::vector<uint8_t>& data) override{
         data[0] = 0x02;
-        data[1] = frame_.id;
+        data[1] = GetFrameId();
         data[2] = data[3] = 0x00;
         data[4] = data[5] = 0x00;
         data[6] = BCC16(frame_.data);

@@ -7,34 +7,21 @@
 
 namespace ZROS{
 
-class Lock final : public AgreeBase{
+class LockInfo final: public AgreeBase{
 public:
-    Lock(){
-        SetFrameName("Battery"); //设置帧名字
+    LockInfo(){
+        SetFrameName("UnLock"); //设置帧名字
         SetFrameID(0x4c); //关键帧ID
-        SetTrigger(Trigger::Event);//触发方式 [事件]
+        SetTrigger(Trigger::Cycle);//触发方式
         Init();
     }
 
 private:
-    ros::Subscriber unlock_sub_;
     ros::Publisher lock_info_pub_;
-    uint8_t locker_;
 
     void Init(){
-        unlock_sub_ = ros_nh_.subscribe("/unlock", 10, &Lock::UnlockCallback, this);
         lock_info_pub_ = ros_nh_.advertise<zr_msgs::locker_info>("/locker_info", 2);
-    }
-
-    void Package(std::vector<uint8_t>& data) override{
-        data[0] = 0x02;
-        data[1] = 0x27; //特殊处理， unlock 的读取和发布关键帧ID不一样
-        data[2] = locker_;
-        data[3] = 0x00;
-        data[4] = data[5] = 0x00;
-        data[6] = BCC16(data);
-        data[7] = 0xff;
-    }
+    } 
 
     void Analyze(const std::vector<uint8_t>& data) override {
         std::vector<uint8_t> locker_array(8, 0x00);
@@ -60,6 +47,48 @@ private:
         }
 
         lock_info_pub_.publish(local_lock_status);
+    }
+
+    void Package(std::vector<uint8_t>& data) override{
+        data[0] = 0x02;
+        data[1] = GetFrameId(); 
+        data[2] = data[3] = 0x00;
+        data[4] = data[4] = 0x00;
+        data[6] = BCC16(data);
+        data[7] = 0xff;
+    }
+
+};
+
+class UnLock final : public AgreeBase{
+public:
+    UnLock(){
+        SetFrameName("UnLock"); //设置帧名字
+        SetFrameID(0x27); //关键帧ID
+        SetTrigger(Trigger::Event);//触发方式 [事件]
+        Init();
+    }
+
+private:
+    ros::Subscriber unlock_sub_;
+    uint8_t locker_;
+
+    void Init(){
+        unlock_sub_ = ros_nh_.subscribe("/unlock", 10, &UnLock::UnlockCallback, this);
+    }
+
+    void Package(std::vector<uint8_t>& data) override{
+        data[0] = 0x02;
+        data[1] = GetFrameId(); 
+        data[2] = locker_;
+        data[3] = 0x00;
+        data[4] = data[5] = 0x00;
+        data[6] = BCC16(data);
+        data[7] = 0xff;
+    }
+
+    void Analyze(const std::vector<uint8_t>& data) override {
+        //Null...
     }
 
     void UnlockCallback(const std_msgs::Int32& msg){

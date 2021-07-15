@@ -54,7 +54,7 @@ public:
      * 
      */
     void Notify(){
-        HowManyObserver();
+        // HowManyObserver();
         for(auto iterator = list_observer_.begin();  \
             iterator != list_observer_.end(); iterator++){
             thread_pool_.add([=]{ //向线程池中丢任务

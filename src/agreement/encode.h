@@ -35,7 +35,7 @@ public:
 private:
     void Package(std::vector<uint8_t>& data) override{
         data[0] = 0x02;
-        data[1] = frame_.id;
+        data[1] = GetFrameId();
         data[2] = data[3] = 0x00;
         data[4] = data[5] = 0x00;
         data[6] = BCC16(data);
@@ -43,7 +43,7 @@ private:
     }
 
     void Analyze(const std::vector<uint8_t>& data) override {
-        motor_info_.right_vel = 20;
+        motor_info_.left_vel = *(float*)(&data[2]);
         motor_pub_.publish(motor_info_);
     }
 
@@ -60,7 +60,7 @@ public:
 private:
     void Package(std::vector<uint8_t>& data) override{
         data[0] = 0x02;
-        data[1] = frame_.id;
+        data[1] = GetFrameId();
         data[2] = data[3] = 0x00;
         data[4] = data[5] = 0x00;
         data[6] = BCC16(data);
@@ -68,8 +68,8 @@ private:
     }
 
     void Analyze(const std::vector<uint8_t>& data) override {
-        motor_info_.left_vel = 10;
-        motor_pub_.publish(motor_info_);
+        motor_info_.right_vel = *(float*)(&data[2]);
+         motor_pub_.publish(motor_info_);
     }
 
 };

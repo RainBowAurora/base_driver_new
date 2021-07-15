@@ -23,7 +23,7 @@ class Taillight final: public AgreeBase{
 public:
     Taillight(){
         SetFrameName("Taillight"); //设置帧名字
-        SetFrameID(0x4a); //关键帧ID
+        // SetFrameID(0x4a); //关键帧ID
         SetTrigger(Trigger::Event);//触发方式 [事件]
         Init();
     }

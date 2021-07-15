@@ -29,7 +29,7 @@ private:
      */
     void Package(std::vector<uint8_t>& data) override{
         data[0] = 0x02;
-        data[1] = frame_.id;
+        data[1] = GetFrameId();
         data[2] = light_data_[0];
         data[3] = light_data_[1];
         data[4] = light_data_[2];

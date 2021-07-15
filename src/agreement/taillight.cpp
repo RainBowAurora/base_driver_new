@@ -2,13 +2,13 @@
 
 namespace ZROS{
 
-inline RGBType RGBTypeMake(float r, float g, float b)
+RGBType RGBTypeMake(float r, float g, float b)
 {
 	RGBType rgb = {r, g, b};
 	return rgb;
 }
 
-inline HSVType HSVTypeMake(float h, float s, float v)
+HSVType HSVTypeMake(float h, float s, float v)
 {
 	HSVType hsv = {h, s, v};
 	return hsv;

@@ -20,7 +20,8 @@ int main(int argc, char *argv[])
     base_driver.Registered(std::make_shared<ZROS::LeftVel>(), 20); //注册左轮速度
     base_driver.Registered(std::make_shared<ZROS::RightVel>(), 20); //注册右轮速度
     base_driver.Registered(std::make_shared<ZROS::Light>(), 200); //注册前灯
-    base_driver.Registered(std::make_shared<ZROS::Lock>(), 1000); //注册锁
+    base_driver.Registered(std::make_shared<ZROS::UnLock>(), 1000); //注册写锁
+    base_driver.Registered(std::make_shared<ZROS::LockInfo>(), 1000); //注册读锁
     base_driver.Registered(std::make_shared<ZROS::Taillight>(), 500); //注册尾灯
 
     base_driver.Run(); 
