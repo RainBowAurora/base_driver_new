@@ -24,7 +24,7 @@ private:
     } 
 
     void Analyze(const std::vector<uint8_t>& data) override {
-        std::vector<uint8_t> locker_array(8, 0x00);
+        uint8_t locker_array[4];
 
         locker_array[0] = data[2];
         locker_array[1] = data[3];
