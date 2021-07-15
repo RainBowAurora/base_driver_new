@@ -46,7 +46,7 @@ void BaseDriver::Init()
     } //end try
 
     //单独创建一个轮询任务来接收串口发来数据
-    timers_.push_back(std::move(ZROS::COMMON::Timer(50 ,[&]{
+    timers_.push_back(std::move(ZROS::COMMON::Timer(2 ,[&]{
         std::vector<uint8_t> temp_read_data{};
         serial_.read(temp_read_data, 8); 
         if(!temp_read_data.empty()){ //读取到下位机传来的数据，创建一个新的消息
