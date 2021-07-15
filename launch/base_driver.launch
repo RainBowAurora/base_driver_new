@@ -2,7 +2,7 @@
 <launch>
 	<!-- ZhenRobot_teleop_key already has its own built in velocity smoother -->
 		<node pkg="base_driver_new" type="base_driver_new_node" name="base_driver_node" output="screen" respawn="true">
-		<param name="serial_port" value="/dev/pts/2"/> 
+		<param name="serial_port" value="/dev/controlboard"/> 
 		<param name="serial_baudrate" value="115200"/>
         <param name="serial_timerout" value="200"/>
         <param name="low_battery_threshold" value="19.0"/>
