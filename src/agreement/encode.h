@@ -21,7 +21,14 @@ protected:
     ros::Publisher motor_pub_;
     static zr_msgs::motor_info motor_info_;
 
-
+    float Bytes2Float(const std::vector<uint8_t>& input){
+        uint8_t f_array[4];
+	f_array[0] = input[2];
+	f_array[1] = input[3];
+	f_array[2] = input[4];
+	f_array[3] = input[5];
+	return *(float *)(&f_array);
+    }
 };
 
 class EncodeLeft final: public Encode{
@@ -43,7 +50,7 @@ private:
     }
 
     void Analyze(const std::vector<uint8_t>& data) override {
-        motor_info_.left_vel = *(float*)(&data[2]);
+        motor_info_.left_vel = ((float)(((int)(Bytes2Float(data)*100)))/100);
         motor_pub_.publish(motor_info_);
     }
 
@@ -68,7 +75,7 @@ private:
     }
 
     void Analyze(const std::vector<uint8_t>& data) override {
-        motor_info_.right_vel = *(float*)(&data[2]);
+        motor_info_.right_vel = ((float)(((int)(Bytes2Float(data)*100)))/100);
          motor_pub_.publish(motor_info_);
     }
 
